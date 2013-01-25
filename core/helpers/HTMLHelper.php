@@ -64,11 +64,10 @@ class HTMLHelper extends Helper {
 	}
 	
 	public static function scriptAll() {
-		self::css('jquery');
 		if ($handle = opendir(BASE_PATH . '/js/')) {
 			while (false !== ($entry = readdir($handle))) {
 				$file_ext = substr($entry, -3);
-				if ($entry != "." && $entry != ".." && $file_ext == ".js" && $file_ext != "jquery.js") {
+				if ($entry != "." && $entry != ".." && $file_ext == ".js") {
 					self::script($entry);
 				}
 			}
@@ -121,7 +120,7 @@ class HTMLHelper extends Helper {
 		}else{
 			$img_path = $image;
 		}
-		echo "<a href = \"".$path."\"><img src = \"$img_path\" $attributes /></a>\n";
+		echo "<a href = \"".$path."\"><img src = \"".$img_path."\" ".$attributes." /></a>\n";
 	}
 	
 }
