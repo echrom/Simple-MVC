@@ -2,12 +2,23 @@
 session_start();
 
 include (APP_PATH . '/config/config.php');
-error_reporting(E_ALL ^ E_WARNING);
 
-$db = mysql_connect($db_host, $db_user, $db_password) or die("Could not connect to database. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>");
+if($debug_enable){
+	error_reporting(E_ALL ^ E_WARNING);
+}else{
+	ini_set('display_errors', '0');
+	error_reporting(E_ALL | E_STRICT);
+}
+if (isset($default_time_zone)) {
+	date_default_timezone_set($default_time_zone);
+}
 
-if (!mysql_select_db($db_table, $db)) {
-	die("No database table <strong>$db_table</strong> was found. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>"); 
+if($db_enable){
+	$db = mysql_connect($db_host, $db_user, $db_password) or die("Could not connect to database. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>");
+
+	if (!mysql_select_db($db_table, $db)) {
+		die("No database table <strong>$db_table</strong> was found. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>"); 
+	}
 }
 
 if (get_magic_quotes_gpc()) {
@@ -145,6 +156,10 @@ function env($key) {
 	return null;
 }
 
+if (!defined('ENCRYPT_KEY')) {
+	define('ENCRYPT_KEY', $encrypt_key);
+}
+
 if (!defined('FULL_BASE_URL')) {
 	$s = null;
 	if (env('HTTPS')) {
@@ -153,14 +168,14 @@ if (!defined('FULL_BASE_URL')) {
 
 	$httpHost = env('HTTP_HOST');
 	$base = basename(dirname(dirname(__FILE__)));
-	
+
 	if ($httpHost == $base || $base == "htdocs") {
 		$base = "";
 	} else { $base = '/' . $base; }
 
 	if (isset($httpHost)) {
 		if (strpos($httpHost, 'www') !== false) {
-			define('FULL_BASE_URL', 'http' . $s . '://' . $base);
+			define('FULL_BASE_URL', 'http' . $s . ':/' . $base);
 		}else{		
 			define('FULL_BASE_URL', 'http' . $s . '://' . $httpHost . $base);
 		}
