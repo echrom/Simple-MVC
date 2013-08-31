@@ -120,7 +120,7 @@ class HTMLHelper extends Helper {
 		}else{
 			$img_path = $image;
 		}
-		echo "<a href = \"".$path."\"><img src = \"".$img_path."\" ".$attributes." /></a>\n";
+		echo "<a href = \"".$path."\"><img src = \"$img_path\" $attributes /></a>\n";
 	}
 	
 }

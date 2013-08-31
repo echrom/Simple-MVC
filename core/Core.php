@@ -9,6 +9,7 @@ if($debug_enable){
 	ini_set('display_errors', '0');
 	error_reporting(E_ALL | E_STRICT);
 }
+
 if (isset($default_time_zone)) {
 	date_default_timezone_set($default_time_zone);
 }
@@ -18,6 +19,21 @@ if($db_enable){
 
 	if (!mysql_select_db($db_table, $db)) {
 		die("No database table <strong>$db_table</strong> was found. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>"); 
+	}
+}
+
+if($ad_enable){
+	$ad = ldap_connect($ad_host) or die("Could not connect to the Active Directory Server at <strong>$ad_table</strong>. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>");
+	
+	if($ad_options_enable){
+		if (is_array($ad_options)) {
+			foreach ($ad_options as $key => &$val) {
+				
+				ldap_set_option($ad, $key, $val) or die("There Is a Problem with Option <strong>$key</strong> with value <strong>$val</strong>. Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>");
+			}
+		}else{
+			die ("ad_options requires an array, For example <strong> ad_options = array(option name => value,option name 2 => value)</strong>  Please check the config file at: <pre>".APP_PATH."/config/config.php</pre>");
+		}
 	}
 }
 
