@@ -1,4 +1,4 @@
-Simple MVC is a simple, clean and minimal MVC framework in PHP.
+XtendMVC formerly known as (Simple MVC) is a simple, clean and minimal MVC framework in PHP.
 It was created for educational purposes and small personal web projects.
 
 It allows layout templates and will look through a hierarchy of layout names in order:
@@ -9,5 +9,6 @@ It allows layout templates and will look through a hierarchy of layout names in 
 
 It will always use application.php if no other files are created and throw an error if it is not available.
 
-A appController.php file needs to be created in '/app/controllers/' which gets instatiated with each route.
+A appController.php file needs to be created in '/app/controllers/' which gets instantiated with each route.
 
+We are currently working on getting the framework ready for cross platform and working on the website http://xtendmvc.com/ where people can submit there Xtentions (Helpers) where it will allow the user to just drag and drop the file into the helpers folder.
